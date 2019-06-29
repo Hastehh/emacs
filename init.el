@@ -1,7 +1,8 @@
+;;default setup
 (require 'package)
 
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/")
+	     '("melpa" . "http://melpa.org/packages/")
 	     t)
 
 (package-initialize)
@@ -9,7 +10,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
+;;cursor colour & background
 (load-theme 'misterioso)
 (set-cursor-color "yellow")
 
@@ -21,7 +22,7 @@
 (use-package magit
   :ensure t
   :config
-  (global-set-key (kbd "M-g") 'magit)
+  (global-set-key (kbd "M-g") 'magit))
 
 ;; highlighting the current line
 (global-hl-line-mode 1)
@@ -48,6 +49,13 @@
 ;;(define-key ac-mode-map (kbd "C-p") (function ac-previous))
 ;;(define-key ac-mode-map (kbd "C-n") (function ac-next))
 
+(use-package iedit
+  :ensure t
+  :config
+  (global-set-key (kbd "C-:") (function iedit-mode))
+  )
+
+
 (use-package expand-region
   :ensure t)
 
@@ -58,6 +66,7 @@
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook 'yas-minor-mode)
+  (add-hook 'js-mode-hook 'yas-minor-mode)
   (use-package yasnippet-snippets
     :ensure t)
   (yas-reload-all))
@@ -108,8 +117,7 @@
 :init
 (rainbow-delimiters-mode 1)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'org-mode-hook #'rainbow-delimiters-mode)
-)
+(add-hook 'org-mode-hook #'rainbow-delimiters-mode))
 
 ;; navigation
 (setq ido-enable-flex-matching nil)
@@ -139,6 +147,15 @@
 (setq dashboard-items '((recents . 20)))
 (setq dashboard-banner-logo-title "xxxx"))
 
+(use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode))
+
+;;commenting and uncommenting lines
+(global-set-key (kbd "C-c C-;") (function comment-line))
+
+
 ;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -147,10 +164,12 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (avy swiper which-key popup-kill-ring expand-region auto-complete yasnippet-snippets yasnippet company beacon magit dashboard ido-vertical-mode rainbow-delimiters smex use-package spacemacs-theme spaceline))))
+    (hungry-delete iedit avy swiper which-key popup-kill-ring expand-region auto-complete yasnippet-snippets yasnippet company beacon magit dashboard ido-vertical-mode rainbow-delimiters smex use-package spacemacs-theme spaceline))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'narrow-to-region 'disabled nil)
+
